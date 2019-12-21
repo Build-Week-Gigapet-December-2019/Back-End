@@ -4,6 +4,7 @@
   "description": "Gigapet backend",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "test",
     "server": "nodemon server.js"
   },
