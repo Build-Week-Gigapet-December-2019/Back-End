@@ -14,12 +14,10 @@ function find(table) {
 
 // Accepts array of 2 strings [table, column]
 function findCol(tcArray) {
-
   return db(tcArray[0]).select(tcArray[1]);
 }
 
 function findBy(filter) {
-
   return db('parents').where(filter);
 }
 
