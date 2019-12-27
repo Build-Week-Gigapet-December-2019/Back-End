@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const secrets = require('./secrets.js');
 const DB = require('../knex-queries/model.js');
 const bcrypt = require('bcryptjs');
-const horseplay = "knucklehead";
+const horseplay = 'knucklehead';
 
 console.log(horseplay);
 
@@ -45,8 +45,9 @@ router.post('/register', async (req, res) => {
   console.log(creds, 'HASHED UP CREDS');
   try {
     const userAddSuccess = await DB.add(creds);
-    const token = genToken(userAddSuccess);
-    res.status(201).json({ userAddSuccess, token });
+    // const token = genToken(userAddSuccess);
+    // res.status(201).json({ userAddSuccess, token });
+    res.status(201).json({ userAddSuccess });
   } catch (err) {
     res.status(500).json(err);
   }
@@ -57,7 +58,7 @@ router.post('/login', async (req, res) => {
     let { username, password } = req.body;
 
     const user = await DB.findBy({ username }).first();
-    console.log(user, "LOGIN USER")
+    console.log(user, 'LOGIN USER');
 
     if (user && bcrypt.compareSync(password, user.password)) {
       const token = genToken(user);
