@@ -22,18 +22,18 @@ function findBy(filter) {
 }
 
 async function add(parent) {
-  const [id] = await db('parents')
+  const [addedParent] = await db('parents')
     .insert(parent)
-    .returning('id');
+    .returning('*').select('id', 'username');
+  return addedParent;
 
-  await findBy({ id });
-
-  // const parent_return = await db('parents')
-  //   .select('id', 'username')
-  //   .where({ id })
-  //   .first();
-  //   return parent_return;
+  // await findBy({ id });
 }
+// const parent_return = await db('parents')
+//   .select('id', 'username')
+//   .where({ id })
+//   .first();
+//   return parent_return;
 
 function findByUnique(uniqueIdent) {
   return db(uniqueIdent[0])

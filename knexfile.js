@@ -1,10 +1,10 @@
 var pg = require('pg');
-pg.defaults.ssl = true;
+// pg.defaults.ssl = true;
 
 module.exports = {
   development: {
     client: 'pg',
-    connection: 'postgres://localhost/<examples>',
+    connection: 'postgres://localhost:5432/',
     migrations: {
       directory: './db/migrations'
     },
