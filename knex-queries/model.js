@@ -26,11 +26,13 @@ async function add(parent) {
     .insert(parent)
     .returning('id');
 
-  const parent_return = await db('parents')
-    .select('id', 'username')
-    .where({ id })
-    .first();
-    return parent_return;
+  await findBy({ id });
+
+  // const parent_return = await db('parents')
+  //   .select('id', 'username')
+  //   .where({ id })
+  //   .first();
+  //   return parent_return;
 }
 
 function findByUnique(uniqueIdent) {
