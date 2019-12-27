@@ -35,7 +35,9 @@ module.exports = {
     seeds: {
       directory: './db/seeds/production'
     },
-    useNullAsDefault: true,
-    ssl: true
+    pool: { min: 1, max: 7 },
+    acquireConnectionTimeout: 300000,
+    useNullAsDefault: true
+    // ssl: true
   }
 };
