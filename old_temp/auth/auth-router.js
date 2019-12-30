@@ -1,19 +1,14 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-const secrets = require('../config/secrets.js') || require('./secrets.js');
+const secrets = require('./secrets.js');
 const DB = require('../knex-queries/model.js');
 const bcrypt = require('bcryptjs');
+const horseplay = 'knucklehead';
 
-router.post('/addFoodEntry', async (req, res) => {
-  const newEntry = req.body;
-  try {
-    const addedEntry = await DB.addEntry(newEntry);
-    res.status(200).json(addedEntry);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+console.log(horseplay);
+
+// router.use(bodyParser.json());
 
 router.get('/servertest', (req, res) => {
   res.status(200).json('Server is working, boss!');
@@ -32,6 +27,7 @@ router.get('/:table', async (req, res) => {
 router.get('/:table/:column', async (req, res) => {
   try {
     const slugArray = [req.params.table, req.params.column];
+    console.log(slugArray, 'S L U G    A R R A Y');
     const varTable = await DB.findCol(slugArray);
 
     res.status(200).json(varTable);
@@ -42,34 +38,33 @@ router.get('/:table/:column', async (req, res) => {
 
 router.post('/register', async (req, res) => {
   const creds = req.body;
-  if (!(creds.username && creds.password)) {
-    res.status(406).json({ error: 'Valid Username and Password Required' });
-  } else {
-    const hash = bcrypt.hashSync(creds.password, 10);
-    creds.password = hash;
-    try {
-      const userAddSuccess = await DB.add(creds);
-      res.status(201).json({ userAddSuccess });
-    } catch (err) {
-      res.status(500).json(err);
-    }
+  console.log(creds, 'CREDS');
+  const hash = bcrypt.hashSync(creds.password, 10);
+  console.log(hash, 'HASH');
+  creds.password = hash;
+  console.log(creds, 'HASHED UP CREDS');
+  try {
+    const userAddSuccess = await DB.add(creds);
+    // const token = genToken(userAddSuccess);
+    // res.status(201).json({ userAddSuccess, token });
+    res.status(201).json({ userAddSuccess });
+  } catch (err) {
+    res.status(500).json(err);
   }
 });
 
 router.post('/login', async (req, res) => {
   try {
-    if (!(req.body.username && req.body.password )) {
-      res.status(406).json({ error: 'Invalid Username or Password' });
+    let { username, password } = req.body;
+
+    const user = await DB.findBy({ username }).first();
+    console.log(user, 'LOGIN USER');
+
+    if (user && bcrypt.compareSync(password, user.password)) {
+      const token = genToken(user);
+      res.status(200).json({ username: user.username, token: token });
     } else {
-      let { username, password } = req.body;
-      const user = await DB.findBy({ username }).first();
-      bcrypt.compareSync(password, user.password);
-      if (user && bcrypt.compareSync(password, user.password)) {
-        const token = genToken(user);
-        res.status(202).json({ username: user.username, token });
-      } else {
-        res.status(406).json({ message: 'Invalid Credentials' });
-      }
+      res.status(401).json({ message: 'Invalid Credentials' });
     }
   } catch (err) {
     res.status(500).json(err);

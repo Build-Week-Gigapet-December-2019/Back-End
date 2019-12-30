@@ -1,14 +1,11 @@
-const db = require('../db/dbConfig.js');
+const db = require('../config/dbConfig.js');
 
 module.exports = {
   add,
   find,
   findBy,
   findByUnique,
-  findCol,
-  addEntry,
-  addChild,
-  removeEntry
+  findCol
 };
 
 function find(table) {
@@ -26,43 +23,23 @@ function findBy(filter) {
 
 async function add(parent) {
   const [addedParent] = await db('parents')
-    .returning(['id', 'username'])
-    .insert(parent);
-
+    .insert(parent)
+    .returning('*').select('id', 'username');
   return addedParent;
+
+  // await findBy({ id });
 }
+// const parent_return = await db('parents')
+//   .select('id', 'username')
+//   .where({ id })
+//   .first();
+//   return parent_return;
 
 function findByUnique(uniqueIdent) {
   return db(uniqueIdent[0])
     .select(uniqueIdent[1])
     .where(uniqueIdent[2])
     .first();
-}
-
-async function addEntry(entry) {
-  const [addedEntry] = await db('food_entries')
-    .returning(['child_id', 'id', 'date'])
-    .insert(entry);
-
-  return addedEntry;
-}
-
-async function removeEntry(entry) {
-  console.log(entry, "ENTRY ENTRY")
-  const removedEntry = await db('food_entries')
-    .returning(['id', 'date'])
-    .where('id', entry )
-    .delete();
-
-  return removedEntry;
-}
-
-async function addChild(child) {
-  const [addedChild] = await db('children')
-    .returning(['id', 'name', 'parent_id'])
-    .insert(child);
-
-  return addedChild;
 }
 
 // async function add(user) {

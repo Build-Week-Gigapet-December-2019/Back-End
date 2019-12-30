@@ -1,7 +1,4 @@
 var pg = require('pg');
-var types = require('pg').types;
-// override parsing date column to Date()
-types.setTypeParser(1082, val => val);
 // pg.defaults.ssl = true;
 
 module.exports = {
