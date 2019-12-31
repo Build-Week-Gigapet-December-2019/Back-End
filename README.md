@@ -10,39 +10,41 @@ GET /
 
 ## Register User \(Parent\)
 
-/api/auth/register
 
-**POST**
+**POST** /api/auth/register
+
+**BODY**
+```javascript
 {
 "username": <username _string_>,
 "password": <password _string_>
-}
+}```
 
 _RETURNS_
-
+```javascript
 {
-"id": <Parent id _integer_>,
-"username": <Parent username _string_>
-}
+"id": <Parent's id _integer_>,
+"username": <Parent's username _string_>
+}```
 
 ## Parent Login
 
-/api/auth/login
+**POST** /api/auth/login
 
-**POST**
+**BODY**
+```javascript
 {
 "username": <username _string_>,
 "password": <password _string_>
-}
+}```
 
 _RETURNS_
-
+```javascript
 {
 "id": <Parent id _integer_>,
 "username": <Parent username _string_>,
 "token": <Parent's jwt token _string_>
-
-}
+}```
 
 # AUTHENTICATED ROUTES THAT REQUIRE JWT TOKEN
 
@@ -51,13 +53,14 @@ _RETURNS_
 /api/parents/child
 
 **POST**
+
 {
 **REQUIRED:**
 "name": <Child's Name _string_>,
-"parent*id": <ID of parent adding child to db \_integer*> \(**Parent id must already exist**\)
+"parent\_id": <ID of parent adding child to db _integer_> \(**Parent id must already exist**\)
 
 **OPTIONAL:**
-"parent_2_id": <ID of 2nd parent if applicable> \(**Parent id must already exist**\)
+"parent\_2\_id": <ID of 2nd parent if applicable> \(**Parent id must already exist**\)
 }
 
 _RETURNS_
@@ -65,7 +68,7 @@ _RETURNS_
 {
 "id": <Child's ID _integer_>,
 "name": <Child's Name _string_>,
-"parent*id": <Parent's ID \_string*>
+"parent\_id": <Parent's ID _string_>
 
 }
 
@@ -76,7 +79,7 @@ _RETURNS_
 **POST**
 {
 **REQUIRED:**
-"child*id": <ID of child being recorded \_integer*> \(**Child id must already exist**\)
+"child\_id": <ID of child being recorded _integer_> \(**Child id must already exist**\)
 
 **OPTIONAL:**
 "date": <"yyyy-mm-dd" _string_>
@@ -91,21 +94,22 @@ _Work the same as dairy. Include as many or as few as desired._
 _RETURNS_
 
 {
-"child*id": <Id of child being recorded \_integer*>,
+"child\_id": <Id of child being recorded _integer_>,
 "id": <ID of food entry _integer_>,
 "date": <Date of food entry _string_>
 
 }
 
 ### Example
+```javascript
 {
-"child_id": 5,
+"child\_id": 5,
 "fruits": 4,
 "proteins": 7
 }```
 
 * Is equivalent to *
-```{
+```javascript {
 "child_id": 5,
 "date": "2019-12-31", <---- The current date
 "dairy": 0,
@@ -118,7 +122,7 @@ _RETURNS_
 
 *And will return*
 
-```{
+```javascript {
     "child_id": 5,
     "id": 9,
     "date": "2019-12-31"
