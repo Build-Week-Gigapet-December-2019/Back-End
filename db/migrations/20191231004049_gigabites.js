@@ -27,17 +27,20 @@ exports.up = function(knex) {
     })
     .createTable('food_entries', (tbl) => {
       tbl.increments('id').primary();
-      tbl.date('date');
-      tbl.integer('dairy');
-      tbl.integer('fruits');
-      tbl.integer('grains');
-      tbl.integer('proteins');
-      tbl.integer('vegetables');
-      tbl.integer('treats');
+      tbl.date('date').defaultTo(knex.raw('now()'));
+      tbl.integer('dairy').defaultTo(0);
+      tbl.integer('fruits').defaultTo(0);
+      tbl.integer('grains').defaultTo(0);
+      tbl.integer('proteins').defaultTo(0);
+      tbl.integer('vegetables').defaultTo(0);
+      tbl.integer('treats').defaultTo(0);
       tbl
         .integer('child_id')
+        .notNullable()
         .references('id')
-        .inTable('children');
+        .inTable('children')
+        .onUpdate('CASCADE')
+        .onDelete('CASCADE');
     });
 };
 
@@ -47,5 +50,3 @@ exports.down = function(knex) {
     .dropTableIfExists('children')
     .dropTableIfExists('parents');
 };
-
-//Consider using update to have foods eaten .json object
