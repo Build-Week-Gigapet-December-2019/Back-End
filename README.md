@@ -2,129 +2,184 @@
 
 ## API Base URL
 
-https://gigapets-winter-2019.herokuapp.com
+[https://gigapets-winter-2019.herokuapp.com](https://gigapets-winter-2019.herokuapp.com/)
 
-## Server Running Check
+### Server Running Check
 
-GET /
-
-## Register User \(Parent\)
+**GET** /
 
 
-**POST** /api/auth/register
+
+### Register User (Parent)
+
+**POST**  /api/auth/register
+
+
 
 **BODY**
 
-{
-"username": <username _string_>,
-"password": <password _string_>
+{ 
+
+"username": <Parent's username>,
+
+"password": <Parent's password>
+
 }
 
-_RETURNS_
+***RETURNS***
 
 {
-"id": <Parent's id _integer_>,
-"username": <Parent's username _string_>
-}
+
+ "id": <Parent's id (*integer*)>,
+
+ "username": <Parent's username *(string*)>
+
+ }
+
+
 
 ## Parent Login
 
 **POST** /api/auth/login
 
+
+
 **BODY**
 
 {
-"username": <username _string_>,
-"password": <password _string_>
+
+ "username": <Parent's username (*string*)>,
+
+ "password": <Parent's password (*string*)> 
+
 }
 
-_RETURNS_
+***RETURNS***
 
 {
-"id": <Parent id _integer_>,
-"username": <Parent username _string_>,
-"token": <Parent's jwt token _string_>
+
+ "id": <Parent's Id (*integer*)>,
+
+ "username": <Parent's username (*string*)> ,
+
+ "token": <Parent's jwt token (*string*)> 
+
 }
 
 # AUTHENTICATED ROUTES THAT REQUIRE JWT TOKEN
 
-## Parent Login
+### Add New Child
 
-/api/parents/child
 
-**POST**
+
+**POST** /api/parents/child
+
+
+
+**REQUIRED BODY:**
+
+{ 
+
+ "name": <Child's Name (*string*)>,
+
+ "parent_id": <Parent's Id (*integer*)>, (**Parent id must already exist**)
+
+ "parent_2_id": <ID of 2nd parent if applicable (*string*)> **(OPTIONAL)** (**Parent id must already exist**)
+
+ }
+
+*RETURNS*
 
 {
-**REQUIRED:**
-"name": <Child's Name _string_>,
-"parent\_id": <ID of parent adding child to db _integer_> \(**Parent id must already exist**\)
 
-**OPTIONAL:**
-"parent\_2\_id": <ID of 2nd parent if applicable> \(**Parent id must already exist**\)
+ "id": <Child's ID (*integer*)>,
+
+ "name": <Child's Name (*string*)>,
+
+ "parent_id": <Parent's ID (*string*)>
+
 }
 
-_RETURNS_
+### Add Food Entry
+
+**POST**  /api/parents/food
+
+
+
+**REQUIRED BODY:**
 
 {
-"id": <Child's ID _integer_>,
-"name": <Child's Name _string_>,
-"parent\_id": <Parent's ID _string_>
 
-}
+ "child_id": <ID of Child being recorded (*integer*)> (**Child id must already exist**)
 
-## Add Food Entry
+**-- OPTIONAL --**
 
-/api/parents/food
+ "date": <"yyyy-mm-dd" (*string*)>  
 
-**POST**
-{
-**REQUIRED:**
-"child\_id": <ID of child being recorded _integer_> \(**Child id must already exist**\)
+(**OMIT DATE TO AUTOMATICALLY USE CURRENT DATE**) 
 
-**OPTIONAL:**
-"date": <"yyyy-mm-dd" _string_>
-\(**COMPLETELY OMIT DATE TO AUTOMATICALLY DATE ENTRY AS CURRENT DATE**\)
-"dairy": <Units of dairy consumed _integer_>
+"dairy": <Units of Category Consumed (*integer*)>
 
-"fruits", "grains", "proteins", "vegetables", "treats" --
-_Work the same as dairy. Include as many or as few as desired._
-\(**OMITTED FOOD CATEGORIES WILL DEFAULT TO ZERO**\)
-}
+"fruits", "grains", "proteins", "vegetables", "treats" 
 
-_RETURNS_
+-- *Work the same as dairy. Include as many or as few as desired.* 
+
+(**OMITTED FOOD CATEGORIES WILL DEFAULT TO ZERO**) }
+
+*RETURNS*
 
 {
-"child\_id": <Id of child being recorded _integer_>,
-"id": <ID of food entry _integer_>,
-"date": <Date of food entry _string_>
+
+ "child_id": <ID of Child being recorded (*integer*)> , 
+
+"id": <Id of the food entry (*integer*)>,
+
+ "date": <Date of the food entry (*string*)>
 
 }
 
 ### Example
 
-{
-"child\_id": 5,
-"fruits": 4,
-"proteins": 7
+{ 
+
+"child_id": 5, 
+
+"fruits": 4, 
+
+"proteins": 7 
+
 }
 
-* Is equivalent to *
- {
+##### Is equivalent to:
+
+  { 
+
 "child_id": 5,
-"date": "2019-12-31", <---- The current date
-"dairy": 0,
-"fruits": 4,
+
+ "date": "2019-12-31", <---- The current date
+
+ "dairy": 0, 
+
+"fruits": 4, 
+
 "grains": 0,
-"proteins": 7,
-"vegetables": 0,
-"treats": 0
+
+ "proteins": 7, 
+
+"vegetables": 0, 
+
+"treats": 0 
+
 }
 
-*And will return*
+###### *And will return*
 
- {
-    "child_id": 5,
-    "id": 9,
-    "date": "2019-12-31"
+{
+
+ "child_id": 5,
+
+ "id": 9,
+
+ "date": "2019-12-31" 
+
 }
-
