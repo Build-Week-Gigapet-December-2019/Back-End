@@ -1,7 +1,9 @@
 const router = require('express').Router();
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-const secrets = require('../config/secrets.js') || require('./secrets.js');
+const secrets = 
+// require('../config/secrets.js') || 
+require('./secrets.js');
 const DB = require('../knex-queries/model.js');
 const bcrypt = require('bcryptjs');
 
