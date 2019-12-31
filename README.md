@@ -14,37 +14,37 @@ GET /
 **POST** /api/auth/register
 
 **BODY**
-```javascript
+
 {
 "username": <username _string_>,
 "password": <password _string_>
-}```
+}
 
 _RETURNS_
-```javascript
+
 {
 "id": <Parent's id _integer_>,
 "username": <Parent's username _string_>
-}```
+}
 
 ## Parent Login
 
 **POST** /api/auth/login
 
 **BODY**
-```javascript
+
 {
 "username": <username _string_>,
 "password": <password _string_>
-}```
+}
 
 _RETURNS_
-```javascript
+
 {
 "id": <Parent id _integer_>,
 "username": <Parent username _string_>,
 "token": <Parent's jwt token _string_>
-}```
+}
 
 # AUTHENTICATED ROUTES THAT REQUIRE JWT TOKEN
 
@@ -101,15 +101,15 @@ _RETURNS_
 }
 
 ### Example
-```javascript
+
 {
 "child\_id": 5,
 "fruits": 4,
 "proteins": 7
-}```
+}
 
 * Is equivalent to *
-```javascript {
+ {
 "child_id": 5,
 "date": "2019-12-31", <---- The current date
 "dairy": 0,
@@ -118,13 +118,13 @@ _RETURNS_
 "proteins": 7,
 "vegetables": 0,
 "treats": 0
-}```
+}
 
 *And will return*
 
-```javascript {
+ {
     "child_id": 5,
     "id": 9,
     "date": "2019-12-31"
-}```
+}
 
