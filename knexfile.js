@@ -1,4 +1,3 @@
-
 var pg = require('pg');
 var types = require('pg').types;
 // override parsing date column to Date()
@@ -44,5 +43,4 @@ module.exports = {
     useNullAsDefault: true
     // ssl: true
   }
-
 };

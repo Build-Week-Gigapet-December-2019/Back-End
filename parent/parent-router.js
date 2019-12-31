@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-// simeplcode-api/api/routes/users.js
-// Include express
-const express = require("express");
-=======
 // POSTMAN TESTING FORMAT!!!!!!
 //
 
@@ -13,20 +8,10 @@ const express = require("express");
 //
 
 const express = require('express');
->>>>>>> empty-branch
 
 // Include express router middleware
 const router = express.Router();
 
-<<<<<<< HEAD
-// Add a 'get' method to express router for our test route
-router.get("/", function(req, res) {
-  res.send({ msg: "Hello World" });
-});
-
-// Exports the router object
-module.exports = router;
-=======
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const secrets = require('../config/secrets.js') || require('./secrets.js');
@@ -73,4 +58,3 @@ router.post('/child', async (req, res) => {
 });
 
 module.exports = router;
->>>>>>> empty-branch
