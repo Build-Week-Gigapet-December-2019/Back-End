@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 # Secrets
 /config
+=======
+# Local Secrets
+config/
+>>>>>>> empty-branch
 
 # Logs
 logs
@@ -107,4 +112,8 @@ dist
 .tern-port
 
 # Stores VSCode versions used for testing VSCode extensions
+<<<<<<< HEAD
 .vscode-test
+=======
+.vscode-test
+>>>>>>> empty-branch
