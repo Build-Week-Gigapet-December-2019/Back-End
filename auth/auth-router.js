@@ -49,7 +49,7 @@ router.post('/register', async (req, res) => {
     creds.password = hash;
     try {
       const userAddSuccess = await DB.add(creds);
-      res.status(201).json({ userAddSuccess });
+      res.status(201).json( userAddSuccess );
     } catch (err) {
       res.status(500).json(err);
     }
