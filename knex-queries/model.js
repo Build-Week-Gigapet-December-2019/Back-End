@@ -3,7 +3,7 @@ const db = require('../db/dbConfig.js');
 module.exports = {
   add,
   find,
-  findBy,
+  login,
   findByUnique,
   findCol,
   addEntry,
@@ -20,7 +20,7 @@ function findCol(tcArray) {
   return db(tcArray[0]).select(tcArray[1]);
 }
 
-function findBy(filter) {
+function login(filter) {
   return db('parents').where(filter);
 }
 

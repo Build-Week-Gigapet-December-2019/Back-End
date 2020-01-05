@@ -1,14 +1,13 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const jwt = require('jsonwebtoken');
-const fs = require('fs');
-if (fs.existsSync('config/secrets.js')) {
-  var secrets = require('../config/secrets.js');
-} else {
-  var secrets = { jwtSecret: process.env.JWT_SECRET };
-}
 const DB = require('../knex-queries/model.js');
 const bcrypt = require('bcryptjs');
+const fs = require('fs');
+if (fs.existsSync('config/secrets.js')) {
+  var secret = require('../config/secrets.js');
+} else {
+  var secret = { jwtSecret: process.env.JWT_SECRET };
+}
 
 router.post('/register', async (req, res) => {
   const creds = req.body;
@@ -28,19 +27,24 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
+    console.log('a');
     if (!(req.body.username && req.body.password)) {
+      console.log('b');
       res.status(406).json({ error: 'Invalid Username or Password' });
     } else {
+      console.log('c');
       let { username, password } = req.body;
-
-      const user = await DB.findBy({ username }).first();
-
+      console.log('d');
+      const user = await DB.login({ username }).first();
+      console.log('e');
       bcrypt.compareSync(password, user.password);
-
+      console.log('f');
       if (user && bcrypt.compareSync(password, user.password)) {
+        console.log('g');
         const token = await genToken(user);
         res.status(202).json({ id: user.id, username: user.username, token });
       } else {
+        console.log('h');
         res.status(406).json({ message: 'Invalid Credentials' });
       }
     }
@@ -50,14 +54,16 @@ router.post('/login', async (req, res) => {
 });
 
 async function genToken(user) {
-  const payload = await {
+  console.log('i');
+  const payload = {
     userid: user.id,
     username: user.username
   };
-
-  const options = await { expiresIn: '2h' };
-  const token = await jwt.sign(payload, secrets.jwtSecret, options);
-
+  console.log('j');
+  const options = { expiresIn: '2h' };
+  console.log('k');
+  const token = jwt.sign(payload, secret.jwtSecret, options);
+  console.log('l');
   return token;
 }
 module.exports = router;
