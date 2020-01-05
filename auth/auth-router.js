@@ -50,12 +50,12 @@ router.post('/login', async (req, res) => {
 });
 
 async function genToken(user) {
-  const payload = {
+  const payload = await {
     userid: user.id,
     username: user.username
   };
 
-  const options = { expiresIn: '2h' };
+  const options = await { expiresIn: '2h' };
   const token = await jwt.sign(payload, secrets.jwtSecret, options);
 
   return token;
