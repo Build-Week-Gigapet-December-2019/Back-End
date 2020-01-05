@@ -61,7 +61,7 @@ async function genToken(user) {
   };
   console.log('j');
   const options = { expiresIn: '2h' };
-  console.log('k', payload);
+  console.log('k', payload, secret.jwtSecret, options);
   const token = await jwt.sign(payload, secret.jwtSecret, options);
   console.log('l', token);
   return token;
