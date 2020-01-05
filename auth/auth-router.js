@@ -61,9 +61,9 @@ async function genToken(user) {
   };
   console.log('j');
   const options = { expiresIn: '2h' };
-  console.log('k');
-  const token = jwt.sign(payload, secret.jwtSecret, options);
-  console.log('l');
+  console.log('k', payload);
+  const token = await jwt.sign(payload, secret.jwtSecret, options);
+  console.log('l', token);
   return token;
 }
 module.exports = router;
