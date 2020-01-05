@@ -1,25 +1,22 @@
 const jwt = require('jsonwebtoken');
-const secrets =
-//  require('../config/secrets.js') || 
- require('./secrets.js');
-
+const fs = require('fs');
+if (fs.existsSync('config/secrets.js')) {
+  var secrets = require('../config/secrets.js');
+} else {
+  var secrets = { jwtSecret: process.env.JWT_SECRET };
+}
 module.exports = (req, res, next) => {
   const token = req.headers.authorization;
-  console.log(token, 'TOKEN');
-  token ? console.log('TOKEN TRUE') : console.log('TOKEN FALSE');
 
   if (token) {
-    jwt.verify(token, secrets.jwtSecret, (err, decodedJwt) => {
+    jwt.verify(token, secrets.jwtSecret, (err) => {
       if (err) {
-        res.status(401).json({ you: "aren't a registered parent" });
+        res.status(401).json({ you: "aren't registered" });
       } else {
-        console.log('AM I HERE?');
-        // console.log(req, 'THIS IS THE REQUEST');
-        // req.decodedJwt = decodedJwt;
         next();
       }
     });
   } else {
-    res.status(401).json({ you: 'need a token, friend.' });
+    res.status(401).json({ you: 'need a token' });
   }
 };
