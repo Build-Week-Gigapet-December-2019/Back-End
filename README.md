@@ -110,25 +110,22 @@
 *RETURNS* Array of children in the following format:
 (parent_2 is in place for stretch functionality)
 
+[
 
-    
-  [
     {
         "id": 3,
         "name": "Billy",
         "parent_id": 1,
         "parent_2_id": null
     },
+
     {
         "id": 7,
         "name": "Nancy",
         "parent_id": 1,
         "parent_2_id": null
-    }
-  ]
-
-
-
+    },
+]
 
 
 ### Add Food Entry
