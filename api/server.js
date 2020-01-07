@@ -7,10 +7,10 @@ const authRouter = require('../auth/auth-router.js');
 const parentRouter = require('../parent/parent-router');
 const environment = process.env.NODE_ENV || 'development';
 const configuration = require('../knexfile')[environment]; 
-const db = require('knex')(configuration);
+server.use(express.json());
 server.use(helmet());
 server.use(cors());
-server.use(express.json());
+
 
 server.use('/api/auth', authRouter);
 server.use('/api/parents', authenticate, parentRouter);
