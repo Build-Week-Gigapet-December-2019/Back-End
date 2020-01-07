@@ -6,6 +6,7 @@ module.exports = {
   login,
   findByUnique,
   findCol,
+  getChildren,
   addEntry,
   addChild,
   removeEntry
@@ -13,6 +14,14 @@ module.exports = {
 
 function find(table) {
   return db(table).select('*');
+}
+
+async function getChildren(parentId) {
+  const children = await db('children')
+  .returning('*')
+  .where('parent_id', parentId);
+
+  return children;
 }
 
 // Accepts array of 2 strings [table, column]

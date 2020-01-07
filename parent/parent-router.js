@@ -53,4 +53,15 @@ router.post('/child', async (req, res) => {
   }
 });
 
+router.get('/children/:parentId', async (req, res) => {
+  const parent = req.params.parentId;
+
+  try {
+    const children = await DB.getChildren(parent);
+    res.status(200).json(children);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;
