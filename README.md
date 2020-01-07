@@ -20,9 +20,9 @@
 
 { 
 
-"username": <Parent's username>,
+"username": <Parent's username *(string*)>,
 
-"password": <Parent's password>
+"password": <Parent's password *(string*)>
 
 }
 
@@ -32,7 +32,9 @@
 
  "id": <Parent's id (*integer*)>,
 
- "username": <Parent's username *(string*)>
+ "username": <Parent's username *(string*)>,
+ 
+ "token": <JWToken *(string*)>
 
  }
 
