@@ -1,15 +1,17 @@
 const db = require('../db/dbConfig.js');
 
 module.exports = {
-  add,
-  find,
-  login,
+  
+  find,  
   findByUnique,
   findCol,
+  addUser,
+  login,
+  addChild,
   getChildren,
   getEntries,
   addEntry,
-  addChild,
+  editEntry,
   removeEntry
   // editEntry
 };
@@ -23,7 +25,7 @@ async function getChildren(parentId) {
   .returning('*')
   .where('parent_id', parentId);
 
-  return children[0];
+  return children;
 }
 
 async function getEntries(childId) {
@@ -43,7 +45,7 @@ function login(filter) {
   return db('parents').where(filter);
 }
 
-async function add(parent) {
+async function addUser(parent) {
   const [addedParent] = await db('parents')
     .returning(['id', 'username'])
     .insert(parent);
@@ -76,13 +78,13 @@ async function removeEntry(entrynum) {
   return removedEntry;
 }
 
-// async function editEntry(entry) {
-//   const editedEntry = await db('food_entries')
-//     .where('id', entry.id )
-//     .update(entry);
+async function editEntry(id, body) {
+  const editedEntry = await db('food_entries')
+    .where('id', id )
+    .update(body, ['*']);
 
-//   return editedEntry;
-// }
+  return editedEntry;
+}
 
 async function addChild(child) {
   const [addedChild] = await db('children')

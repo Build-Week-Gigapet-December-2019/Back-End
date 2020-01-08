@@ -31,6 +31,18 @@ router.post('/food', async (req, res) => {
   }
 });
 
+router.put('/food/:id', async (req, res) => {
+  const { id } = req.params;
+  const { body } = req;
+
+  try {
+    const updatedEntry = await DB.editEntry(id, body);
+    res.status(200).json(updatedEntry);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 router.delete('/food/:id', async (req, res) => {
   const entry = req.params.id;
 
