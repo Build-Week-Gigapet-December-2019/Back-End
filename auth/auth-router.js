@@ -16,8 +16,9 @@ router.post('/register', async (req, res) => {
   } else {
     const hash = bcrypt.hashSync(creds.password, 10);
     creds.password = hash;
+
     try {
-      const user = await DB.add(creds);
+      const user = await DB.addUser(creds);
       const token = await genToken(user);
       res.status(201).json({ id: user.id, username: user.username, token });
     } catch (err) {
@@ -48,7 +49,6 @@ router.post('/login', async (req, res) => {
     res.status(500).json(err);
   }
 });
-
 
 async function genToken(user) {
   const payload = {
