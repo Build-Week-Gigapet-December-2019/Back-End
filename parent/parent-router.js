@@ -19,11 +19,12 @@ router.get('/', function(req, res) {
   res.send({ msg: 'Hello World' });
 });
 
-router.post('/food', async (req, res) => {
+router.post('/food/:childId', async (req, res) => {
   const newEntry = req.body;
-  console.log(newEntry, 'NEW ENTRY HERE');
+  const { childId } = req.params;
+  console.log(newEntry, 'NEW ENTRY HERE', childId);
   try {
-    const addedEntry = await DB.addEntry(newEntry);
+    const addedEntry = await DB.addEntry(childId, newEntry);
     console.log(addedEntry);
     res.status(201).json(addedEntry);
   } catch (err) {

@@ -60,10 +60,11 @@ function findByUnique(uniqueIdent) {
     .first();
 }
 
-async function addEntry(entry) {
+async function addEntry(id, entry) {
+  const newEntry = {...entry, child_id:id};
   const [addedEntry] = await db('food_entries')
     .returning(['child_id', 'id', 'date'])
-    .insert(entry);
+    .insert(newEntry);
 
   return addedEntry;
 }
@@ -83,7 +84,7 @@ async function editEntry(id, body) {
     .where('id', id )
     .update(body, ['*']);
 
-  return editedEntry;
+  return editedEntry[0];
 }
 
 async function addChild(child) {
