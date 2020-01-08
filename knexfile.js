@@ -7,7 +7,7 @@ types.setTypeParser(1082, (val) => val);
 module.exports = {
   development: {
     client: 'pg',
-    connection: 'postgres://localhost:5432/',
+    connection: 'postgres://localhost/gigapets',
     migrations: {
       directory: './db/migrations'
     },
@@ -19,7 +19,7 @@ module.exports = {
 
   test: {
     client: 'pg',
-    connection: 'postgres://localhost:5432/test',
+    connection: 'postgres://localhost/gigapets_test',
     migrations: {
       directory: './db/migrations'
     },

@@ -13,7 +13,7 @@ module.exports = {
   addEntry,
   editEntry,
   removeEntry
-  // editEntry
+  
 };
 
 function find(table) {
