@@ -42,12 +42,35 @@ router.delete('/food/:id', async (req, res) => {
   }
 });
 
+router.get('/food/parent/:parentId', async (req, res) => {
+  const parentId = req.params.parentId;
+
+  try {
+    const child = await DB.getChildren(parentId);
+    const entries = await DB.getEntries(child.id);
+    res.status(200).json(entries);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 router.post('/child', async (req, res) => {
   const newChild = req.body;
 
   try {
     const addedChild = await DB.addChild(newChild);
     res.status(201).json(addedChild);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.get('/children/:parentId', async (req, res) => {
+  const parent = req.params.parentId;
+
+  try {
+    const children = await DB.getChildren(parent);
+    res.status(200).json(children);
   } catch (err) {
     res.status(500).json(err);
   }

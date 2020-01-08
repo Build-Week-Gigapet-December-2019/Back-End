@@ -50,7 +50,6 @@ router.post('/login', async (req, res) => {
 });
 
 
-
 async function genToken(user) {
   const payload = {
     userid: user.id,

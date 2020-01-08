@@ -7,9 +7,11 @@ module.exports = {
   findByUnique,
   findCol,
   getChildren,
+  getEntries,
   addEntry,
   addChild,
   removeEntry
+  // editEntry
 };
 
 function find(table) {
@@ -21,7 +23,15 @@ async function getChildren(parentId) {
   .returning('*')
   .where('parent_id', parentId);
 
-  return children;
+  return children[0];
+}
+
+async function getEntries(childId) {
+  const entries = await db('food_entries')
+  .returning('*')
+  .where('child_id', childId);
+
+  return entries;
 }
 
 // Accepts array of 2 strings [table, column]
@@ -56,15 +66,23 @@ async function addEntry(entry) {
   return addedEntry;
 }
 
-async function removeEntry(entry) {
-  console.log(entry, "ENTRY ENTRY")
+async function removeEntry(entrynum) {
+  console.log(entrynum, "ENTRY ENTRY")
   const removedEntry = await db('food_entries')
     .returning(['id', 'date'])
-    .where('id', entry )
+    .where('id', entrynum )
     .delete();
 
   return removedEntry;
 }
+
+// async function editEntry(entry) {
+//   const editedEntry = await db('food_entries')
+//     .where('id', entry.id )
+//     .update(entry);
+
+//   return editedEntry;
+// }
 
 async function addChild(child) {
   const [addedChild] = await db('children')
@@ -73,6 +91,15 @@ async function addChild(child) {
 
   return addedChild;
 }
+
+// async function addChild(child) {
+//   const [addedChild] = await db('children')
+//     .where('id', )
+//     .returning(['id', 'name', 'parent_id'])
+//     .insert(child);
+
+//   return addedChild;
+// }
 
 // async function add(user) {
 //   const [id] = await db('users').insert(user);
