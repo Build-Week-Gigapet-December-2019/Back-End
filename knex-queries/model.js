@@ -1,8 +1,7 @@
 const db = require('../db/dbConfig.js');
 
 module.exports = {
-  
-  find,  
+  find,
   findByUnique,
   findCol,
   addUser,
@@ -13,7 +12,6 @@ module.exports = {
   addEntry,
   editEntry,
   removeEntry
-  
 };
 
 function find(table) {
@@ -22,16 +20,16 @@ function find(table) {
 
 async function getChildren(parentId) {
   const children = await db('children')
-  .returning('*')
-  .where('parent_id', parentId);
+    .returning('*')
+    .where('parent_id', parentId);
 
   return children;
 }
 
-async function getEntries(childId) {
+async function getEntries(children) {
   const entries = await db('food_entries')
-  .returning('*')
-  .where('child_id', childId);
+    .returning('*')
+    .whereIn('child_id', children);
 
   return entries;
 }
@@ -61,7 +59,7 @@ function findByUnique(uniqueIdent) {
 }
 
 async function addEntry(id, entry) {
-  const newEntry = {...entry, child_id:id};
+  const newEntry = { ...entry, child_id: id };
   const [addedEntry] = await db('food_entries')
     .returning(['child_id', 'id', 'date'])
     .insert(newEntry);
@@ -70,10 +68,10 @@ async function addEntry(id, entry) {
 }
 
 async function removeEntry(entrynum) {
-  console.log(entrynum, "ENTRY ENTRY")
+  console.log(entrynum, 'ENTRY ENTRY');
   const removedEntry = await db('food_entries')
     .returning(['id', 'date'])
-    .where('id', entrynum )
+    .where('id', entrynum)
     .delete();
 
   return removedEntry;
@@ -81,7 +79,7 @@ async function removeEntry(entrynum) {
 
 async function editEntry(id, body) {
   const editedEntry = await db('food_entries')
-    .where('id', id )
+    .where('id', id)
     .update(body, ['*']);
 
   return editedEntry[0];
@@ -94,6 +92,7 @@ async function addChild(child) {
 
   return addedChild;
 }
+
 
 // async function addChild(child) {
 //   const [addedChild] = await db('children')
