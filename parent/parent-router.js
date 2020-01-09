@@ -26,6 +26,19 @@ router.post('/child', async (req, res) => {
   }
 });
 
+// Gets all children associated with Parent by ParentId
+
+router.get('/children/:parentId', async (req, res) => {
+  const parent = req.params.parentId;
+
+  try {
+    const children = await DB.getChildren(parent);
+    res.status(200).json(children);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 // Add food entry by child Id
 
 router.post('/food/:childId', async (req, res) => {
@@ -88,18 +101,7 @@ router.get('/food/parent/:parentId', async (req, res) => {
 
 
 
-// Gets all children associated with Parent by ParentId
 
-router.get('/children/:parentId', async (req, res) => {
-  const parent = req.params.parentId;
-
-  try {
-    const children = await DB.getChildren(parent);
-    res.status(200).json(children);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
 
 // get food entries from child (childId) over last timespan (day, week, or month)
 //  with option query to specify a date that isn't today ?date='2018-09-24'

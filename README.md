@@ -33,7 +33,7 @@
  "id": <Parent's id (*integer*)>,
 
  "username": <Parent's username *(string*)>,
- 
+
  "token": <JWToken *(string*)>
 
  }
@@ -70,11 +70,13 @@
 
 # AUTHENTICATED ROUTES THAT REQUIRE JWT TOKEN
 
+## *BASE URL:*  /api/parents
+
 ### Add New Child
 
 
 
-**POST** /api/parents/child
+**POST**   /child
 
 
 
@@ -105,7 +107,7 @@
 
 ### Retrieve a parent's children
 
-**GET**  /api/parents/children/<:parentId (*integer*)>
+**GET**    /children/<:parentId (*integer*)>
 
 *RETURNS* Array of children in the following format:
 (parent_2 is in place for stretch functionality)
@@ -118,7 +120,7 @@
         "parent_id": 1,
         "parent_2_id": null
     },
-
+    
     {
         "id": 7,
         "name": "Nancy",
@@ -130,17 +132,15 @@
 
 ### Add Food Entry
 
-**POST**  /api/parents/food
+**POST**  /api/parents/food/<:childId (*integer*)>  (**Child id must already exist**)
 
 
 
-**REQUIRED BODY:**
+ **BODY:**
 
 {
 
- "child_id": <ID of Child being recorded (*integer*)> (**Child id must already exist**)
-
-**-- OPTIONAL --**
+ **-- OPTIONAL --**
 
  "date": <"yyyy-mm-dd" (*string*)>  
 
@@ -211,3 +211,50 @@
  "date": "2019-12-31" 
 
 }
+
+
+
+### Update Food Entry
+
+**PUT**   /food/<:entryId (*integer*)>  (**Food entry id must already exist**)
+
+**BODY:** Follows same structure as POST endpoint above.
+
+
+
+### Delete Food Entry
+
+**DELETE**   /food/<:entryId (*integer*)>  (**Food entry id must already exist**)
+
+
+
+
+
+### Get All Food Entries From All of a Parent's Children
+
+**GET**  /food/parent/<:parentId (*integer*)>  (**Parent id must already exist**)
+
+###### *And will return*
+
+An array of food entry objects
+
+
+
+### Get Food Entries for a Child Over a 1, 7, or 30 Day Period Ending on the Provided Date
+
+**GET**  /entries/:child-id/:timespan?(optional query)  
+
+child-id:integer
+
+timespan: (accepts DAY, WEEK, or MONTH) (Defaults to day)
+
+Date defaults to current date without query.
+
+To end timespan on a different date use query shape:  ?date=yyyy-mm-dd
+
+###### *And will return*
+
+An array of food entry objects
+
+
+
