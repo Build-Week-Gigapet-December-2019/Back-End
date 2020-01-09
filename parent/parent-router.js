@@ -101,4 +101,48 @@ router.get('/children/:parentId', async (req, res) => {
   }
 });
 
+// get food entries from child (childId) over last timespan (day, week, or month)
+//  with option query to specify a date that isn't today ?date='2018-09-24'
+
+router.get('/entries/:child/:timespan', async (req, res) => {
+  let useDate;
+
+  const { child } = req.params;
+  const { timespan } = req.params;
+  if (req.query.date) {
+    useDate = req.query.date;
+  } else {
+    useDate = new Date().toISOString().slice(0, 10);
+  }
+  try {
+    let entries;
+    switch (timespan) {
+      case 'week': {
+        const weekDate = await getDate(useDate, 7);
+        entries = await DB.getEntryWeek(weekDate, useDate, child);
+        break;
+      }
+      case 'month': {
+        const monthDate = await getDate(useDate, 30);
+        entries = await DB.getEntryMonth(monthDate, useDate, child);
+        break;
+      }
+      case 'day':
+      default: {
+        entries = await DB.getEntryDay(useDate, child);
+      }
+    }
+    res.status(200).json(entries);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+const getDate = function(startDate, days) {
+  const rangeDate = new Date(startDate);
+  rangeDate.setUTCDate(rangeDate.getUTCDate() - days);
+  return rangeDate.toISOString().slice(0, 10);
+};
+
+
 module.exports = router;

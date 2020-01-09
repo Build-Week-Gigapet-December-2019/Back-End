@@ -11,7 +11,10 @@ module.exports = {
   getEntries,
   addEntry,
   editEntry,
-  removeEntry
+  removeEntry,
+  getEntryDay,
+  getEntryWeek,
+  getEntryMonth
 };
 
 function find(table) {
@@ -93,22 +96,26 @@ async function addChild(child) {
   return addedChild;
 }
 
+async function getEntryDay(day, child) {
+  const daysEntry = await db('food_entries')
+    .returning('*')
+    .where('child_id', child)
+    .where('date', day);
+  return daysEntry;
+}
 
-// async function addChild(child) {
-//   const [addedChild] = await db('children')
-//     .where('id', )
-//     .returning(['id', 'name', 'parent_id'])
-//     .insert(child);
+async function getEntryWeek(begin, end, child) {
+  const weeksEntry = await db('food_entries')
+    .returning('*')
+    .where('child_id', child)
+    .whereBetween('date', [begin, end]);
+  return weeksEntry;
+}
 
-//   return addedChild;
-// }
-
-// async function add(user) {
-//   const [id] = await db('users').insert(user);
-//   return findById(id);
-// }
-
-// async function add(user) {
-//   const [id] = await db('users').insert(user).returning('id');
-//   return findById(id);
-// }
+async function getEntryMonth(begin, end, child) {
+    const monthsEntry = await db('food_entries')
+    .returning('*')
+    .where('child_id', child)
+    .whereBetween('date', [begin, end]);
+    return monthsEntry;
+}
