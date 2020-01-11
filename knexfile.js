@@ -17,7 +17,7 @@ module.exports = {
     useNullAsDefault: true
   },
 
-  test: {
+  testing: {
     client: 'pg',
     connection: 'postgres://localhost/gigapets_test',
     migrations: {
