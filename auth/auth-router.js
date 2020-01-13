@@ -11,7 +11,6 @@ if (fs.existsSync('config/secrets.js')) {
 
 router.post('/register', async (req, res) => {
   const creds = req.body;
-  console.log(creds, 'CREDS');
   if (!(creds.username && creds.password)) {
     res.status(406).json({ error: 'Valid Username and Password Required' });
   } else {

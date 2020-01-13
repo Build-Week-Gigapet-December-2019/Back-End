@@ -1,15 +1,4 @@
-// POSTMAN TESTING FORMAT!!!!!!
-//
-
-// Authorization Type: API Key
-// Key: authorization
-// Value: token string WITHOUT ANY KINDA QUOTES!!!!
-//
-//
-
 const express = require('express');
-
-// Include express router middleware
 const router = express.Router();
 const DB = require('../knex-queries/model.js');
 
@@ -99,10 +88,6 @@ router.get('/food/parent/:parentId', async (req, res) => {
   }
 });
 
-
-
-
-
 // get food entries from child (childId) over last timespan (day, week, or month)
 //  with option query to specify a date that isn't today ?date='2018-09-24'
 
@@ -145,6 +130,5 @@ const getDate = function(startDate, days) {
   rangeDate.setUTCDate(rangeDate.getUTCDate() - days);
   return rangeDate.toISOString().slice(0, 10);
 };
-
 
 module.exports = router;

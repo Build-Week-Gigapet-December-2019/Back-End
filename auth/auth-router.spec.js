@@ -1,18 +1,30 @@
-const server = require('./auth-router.js');
+const server = require('../api/server');
 const request = require('supertest');
-// const request = supertest(server);
-
 const db = require('../db/dbConfig.js');
 
-// beforeEach(async () => {
-// this function executes and clears out the table before each test
-// await db('parents').truncate();
-// });
+beforeEach(async () => {
+  await db('parents').truncate();
+  await db.seed.run('testing');
+});
 
-it('registers a user', async () => {
-  const response = await request(server)
-    .post('api/auth/register')
-    .send("{'username': 'gannon','password': 'link'}");
+describe('auth-router.js', () => {
 
-  expect(response.status).toBe(201);
+  test('registers a user', async () => {
+    let data = { username: 'caprocto', password: 'pete' };
+    const response = await request(server)
+      .post('/api/auth/register')
+      .send(data);
+    expect('application/json');
+    expect(201);
+  });
+
+  test('logs a user in', async () => {
+    let data = { username: 'caprocto', password: 'pete' };
+    const response = await request(server)
+      .post('/api/auth/login')
+      .send(data);
+    
+    expect('application/json');
+    expect(200);
+  });
 });
